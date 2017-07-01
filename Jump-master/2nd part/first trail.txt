@@ -1,0 +1,26 @@
+module joperation(clk,intialpc,instr,jump,pc);
+input clk;
+input[31:0] instr;
+input[31:0] intialpc;
+input jump;
+wire[31:0] pcinc;
+wire[31:0] jumpadd;
+wire[31:0] pcshift;
+output[31:0] pc;
+reg[31:0] pc;
+reg[31:0] npc;
+
+assign pcinc = intialpc + 4;
+assign pcshift = ((intialpc>>28)<<28);
+assign jumpadd = pcshift+(instr[25:0]<<2);
+always@(jump or jumpadd or pcinc)
+begin
+
+if(jump==1)
+npc=jumpadd;
+else
+npc=pcinc;
+end
+always@(posedge clk)
+pc<=npc;
+endmodule

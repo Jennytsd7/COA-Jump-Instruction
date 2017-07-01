@@ -1,0 +1,41 @@
+gleCycleMain(initialPCval, run);
+	  input [31:0]initialPCval;  
+	  input run;
+	  
+	  reg [31:0]PC;
+  reg [31:0]instrReg;
+input j;
+input jal;
+input[31:0]intialPCval;
+reg[31:0]pc;
+reg [25:0]target;	  
+reg [31:0]jumpTarget; 
+wire[31:0]nextPCactual;
+  
+  initial
+  begin
+    PC = initialPCval;
+    //instrReg = 32'b001001_10010_10011_00000_00000_000100;    //addi $s1, $s2 ,4;    
+    constantFour = 32'h0000_0004;   //updated it was 'constantFout'
+    counter = 0;
+  end
+	  
+  always@(run)  //this will make it work like trace. to make the execution sequential & automatic use always(PC) 
+  begin
+        if(counter != 0)      //that is if we are not executing for the first time, we will not take the previously calculated pc value.
+	         PC = nextPCactual;
+	      
+	       if(prevInstrWasJ == 1) //that is if the previous instruction was jump, take next pc from a specified collection register.
+	     PC = jumpTarget;	          
+
+
+
+
+if(j==1||jal==1)    
+	          begin
+	              target = instrReg[25:0];
+	              jumpTarget[27:2] = target;
+	              jumpTarget[1:0] = 2'b00;
+	              jumpTarget[31:28] = PC[31:28];
+	              prevInstrWasJ = 1;                  
+	          end

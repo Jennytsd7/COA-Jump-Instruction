@@ -1,0 +1,13 @@
+module bitadder(ctl,operand0,operand1,result);                                 
+input  [5:0]ctl;
+input [31:0] operand0; 
+input [31:0] operand1;
+output reg [31:0] result;
+always @(ctl)
+case(ctl)
+5'b00000://AND
+result<=operand0&operand1;
+5'b00001://ADD
+result<=operand0+operand1;
+endcase
+endmodule

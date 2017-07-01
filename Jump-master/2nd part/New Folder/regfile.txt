@@ -1,0 +1,14 @@
+module RegisterFile(readReg1, readReg2, writeReg, writeData, readData1, readData2, RegWrite,clock);
+input [4:0]readReg1, readReg2, writeReg;
+input [31:0]writeData;     //address of the register to be written on to.
+input RegWrite,clock;    //RegWrite - register write signal; writeReg-the destination register.
+output [31:0]readData1, readData2;
+wire [31:0]readData1,readData2;
+reg [31:0]RegMemory[0:31];
+always@(posedge clock)
+begin
+if(RegWrite==1)RegMemory[writeReg]=writeData;
+end
+assign readData1=RegMemory[readReg1];
+assign readData2=RegMemory[readReg2];
+endmodule

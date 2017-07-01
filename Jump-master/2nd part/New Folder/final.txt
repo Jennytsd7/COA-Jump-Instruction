@@ -1,0 +1,30 @@
+module andd(inst,clk);
+input [31:0]inst;
+wire [31:0]ans;
+input clk;
+ wire [4:0]dest;
+    wire [5:0]  opcode;
+    wire [4:0]  rs;
+    wire [4:0]  rt;
+    wire [4:0]  rd;
+    
+    wire [4:0]  shamt;
+    wire [5:0] funct;  
+    assign opcode   = inst[31:26];
+    assign rs       = inst[25:21];
+    assign rt       = inst[20:16];
+    assign rd       = inst[15:11];
+    
+    assign shamt    = inst[10:6];
+    assign funct    =inst[5:0];
+    wire [31:0]op1;
+    wire [31:0]op2;
+    
+    
+    wire s;
+    assign s=1'b1;     
+    
+    RegisterFile
+    r(.readReg1(rs),.readReg2(rt),.writeReg(ans),.writeData(dest),.readData1(op1),.readData2(op2),.RegWrite(1'b1),.clock(clk));        
+    bitadder a1(funct,op0,op1,ans);      
+    endmodule
